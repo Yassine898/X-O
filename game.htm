@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X O</title>
+    <style>
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .game{
+            width: 600px;
+            height: max-content;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+        .head{
+            background-color: lightcoral;
+            font-size:100px;
+            width: 100%;
+            height: 100px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .game-body{
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .squar{
+            width: 180px;
+            height: 180px;
+            border: 1px solid black;
+            background-color: lightblue;
+            text-align: center;
+            font-size: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .squar:hover{
+            background-color: lightslategray;
+        }
+        span{
+            color: lightseagreen;
+        }
+    </style>
+</head>
+<body>
+    <div class="game">
+        <div class="head">
+            <span>X O</span>
+            <div>Game</div>
+        </div>
+        <div class="game-body">
+            <div class="squar" id="1"></div>
+            <div class="squar" id="2"></div>
+            <div class="squar" id="3"></div>
+
+            <div class="squar" id="4"></div>
+            <div class="squar" id="5"></div>
+            <div class="squar" id="6"></div>
+
+            <div class="squar" id="7"></div>
+            <div class="squar" id="8"></div>
+            <div class="squar" id="9"></div>
+        </div>
+    </div>
+    <script>
+        var win = false;
+        var turn = "X";
+        const head = document.querySelector(".head");
+        var squares = document.querySelectorAll(".squar");
+
+        squares.forEach(squar => {
+            squar.addEventListener("click", () => {
+                if (squar.textContent === "") {
+                    squar.textContent = turn;
+                    if (turn === "X") {
+                        turn = "O";
+                        head.textContent = turn;
+                        head.style.color = "rgb(97, 175, 244)";
+                    } else {
+                        turn = "X";
+                        head.textContent = turn;
+                        head.style.color = "yellow";
+                    }
+                    if (checkWin(squar.id)) {
+                        head.innerHTML = "Winner: " + squar.textContent;
+                        win = true;
+                        setInterval(function(){
+                            head.textContent+= " .";
+                        },1000)
+                        setTimeout(function(){
+                            window.location.reload();
+                        }, 3500);
+                    } else if (!win) {
+                        draw();
+                    }
+                }
+            });
+        });
+
+        function checkWin(id) {
+            const winningConditions = [
+                [1, 2, 3],
+                [4, 5, 6],
+                [7, 8, 9],
+                [1, 4, 7],
+                [2, 5, 8],
+                [3, 6, 9],
+                [1, 5, 9],
+                [3, 5, 7]
+            ];
+
+            for (let condition of winningConditions) {
+                const [a, b, c] = condition;
+                if (squares[a - 1].textContent !="" &&
+                    squares[a - 1].textContent === squares[b - 1].textContent &&
+                    squares[a - 1].textContent === squares[c - 1].textContent) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function draw() {
+            if (Array.from(squares).every(squar => squar.textContent !== "")) {
+                head.textContent = "DRAW";
+                setTimeout(function() {
+                    window.location.reload();
+                }, 5000);
+            }
+        }
+    </script>
+</body>
+</html>
