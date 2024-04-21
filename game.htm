@@ -177,9 +177,13 @@
             return false;
         }
 
-        function draw() {
+         function draw() {
             if (Array.from(squares).every(squar => squar.textContent !== "")) {
                 head.textContent = "DRAW";
+                setInterval(()=>{
+                    head.textContent+=".";
+
+                },1000)
                 setTimeout(function() {
                     window.location.reload();
                 }, 5000);
