@@ -71,11 +71,6 @@
             align-items: center;
             justify-content: center;
         }
-        img{
-            width: 200px;
-            height: 200px;
-            animation: reload 300ms linear infinite;
-        }
         @keyframes reload {
             from{
                 transform: rotate(0deg);
@@ -123,7 +118,7 @@
         btn.addEventListener("click", ()=>{
             setTimeout(()=>{
                 reloadButton.classList.add("active");
-                svg.style= "width: 500px;height: 500px;animation: reload 1s linear infinite;";
+                svg.style= "display:block;width: 500px;height: 500px;animation: reload 1s linear infinite;";
             },500)
             
             setTimeout(()=>{
